@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Pengelolaan Kontak - Muhammad Yudhi Setiawan</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f8f9fa; color: #333; }
+    h1, h2 { color: #007bff; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    ul { line-height: 1.8; }
+    pre { background: #f0f0f0; padding: 10px; border-radius: 8px; overflow-x: auto; }
+    img { margin-top: 10px; border-radius: 8px; border: 1px solid #ccc; }
+    .credit { margin-top: 40px; text-align: center; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Modul Latihan 3 - Aplikasi Pengelolaan Kontak</h1>
+
+  <h2>Deskripsi</h2>
+  <p>Aplikasi ini dibuat menggunakan bahasa pemrograman <b>Java</b> dengan komponen <b>JFrame Form</b> di NetBeans. 
+  Tujuan aplikasi adalah untuk mengelola data kontak dengan fitur CRUD (Create, Read, Update, Delete) yang terhubung ke database MySQL.</p>
+
+  <h2>Fitur Aplikasi</h2>
+  <ul>
+    <li>Tambah data kontak baru</li>
+    <li>Edit data kontak</li>
+    <li>Hapus data kontak</li>
+    <li>Cari kontak berdasarkan nama atau nomor</li>
+    <li>Tampilkan semua data dari database</li>
+  </ul>
+
+  <h2>Struktur Program</h2>
+  <ul>
+    <li><b>Koneksi.java</b> — untuk mengatur koneksi database</li>
+    <li><b>FormKontak.java</b> — tampilan JFrame dan logika CRUD</li>
+  </ul>
+
+  <h2>Cuplikan Kode (Koneksi.java)</h2>
+  <pre>
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Koneksi {
+    private static final String URL = "jdbc:mysql://localhost:3306/dbkontak";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+}
+  </pre>
+
+  <h2>Cuplikan Kode (FormKontak.java)</h2>
+  <pre>
+private void tampilData() {
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"ID", "Nama", "Nomor", "Kategori"}, 0);
+    try (Connection conn = Koneksi.getConnection()) {
+        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM kontak");
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id"), rs.getString("nama"),
+                rs.getString("nomor"), rs.getString("kategori")
+            });
+        }
+        tabelKontak.setModel(model);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+  </pre>
+
+  <h2>Tangkapan Layar Aplikasi</h2>
+  <p>Berikut contoh tampilan aplikasi JFrame:</p>
+  <img src="screenshot.png" alt="Tampilan Aplikasi" width="600">
+
+  <h2>Link Repository GitHub</h2>
+  <p><a href="https://github.com/muhammadyudhisetiawan749-arch/aplikasi-pengelolaan-kontak">
+     Klik di sini untuk melihat kode sumber lengkap</a></p>
+
+  <div class="credit">
+    <p>Nama: <b>Muhammad Yudhi Setiawan</b><br>
+       NPM: <b>2110010225</b><br>
+       Mata Kuliah: <b>PBO 2</b><br>
+       Dosen Pengampu: [Isi nama dosenmu]</p>
+    <p>© 2025 | Aplikasi Pengelolaan Kontak - Java JFrame</p>
+  </div>
+</body>
+</html>
